@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.RestaurantDetailFragment">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        android:layout_margin="14dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/white">
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16sp">
+
+                    <TextView
+                        android:id="@+id/detail_rest_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/allerta"
+                        android:padding="8sp"
+                        android:textAppearance="?attr/textAppearanceHeadline4"
+                        android:textColor="@color/black"></TextView>
+
+                    <TextView
+                        android:id="@+id/detail_rest_id"
+                        android:layout_width="139dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10sp"
+                        android:fontFamily="@font/allerta"
+                        android:padding="8sp"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textColor="#BDBDBD">
+
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20sp"
+                        android:layout_marginBottom="15sp"
+                        android:fontFamily="@font/allerta"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="#BDBDBD" />
+
+
+                </LinearLayout>
+
+                <!--Divider-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="30sp"
+                    android:layout_marginBottom="30sp"
+                    android:layout_marginStart="15sp"
+                    android:layout_marginEnd="15sp"
+
+                    android:layout_height="1dp"
+                    android:background="@color/design_default_color_secondary_variant"/>
+
+
+
+                <!--Tags-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20sp"
+                        android:layout_marginBottom="15sp"
+                        android:fontFamily="@font/allerta"
+                        android:text="Food Type"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="#BDBDBD" />
+
+                    <TextView
+                        android:id="@+id/detail_rest_food_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20sp"
+                        android:fontFamily="@font/allerta"
+                        android:textColor="@color/black"
+                        android:textSize="17dp" />
+
+                    <!--Divider-->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="30sp"
+                        android:layout_marginBottom="30sp"
+                        android:layout_marginStart="15sp"
+                        android:layout_marginEnd="15sp"
+
+                        android:layout_height="1dp"
+                        android:background="@color/design_default_color_secondary_variant"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20sp"
+                        android:layout_marginBottom="15sp"
+                        android:fontFamily="@font/allerta"
+                        android:text="Address"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="#BDBDBD" />
+
+                    <TextView
+                        android:id="@+id/detail_repo_license"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20sp"
+                        android:fontFamily="@font/allerta"
+                        android:textColor="@color/black"
+                        android:textSize="17dp" />
+
+                    <!--Divider-->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="30sp"
+                        android:layout_marginBottom="30sp"
+                        android:layout_marginStart="15sp"
+                        android:layout_marginEnd="15sp"
+
+                        android:layout_height="1dp"
+                        android:background="@color/design_default_color_secondary_variant"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</FrameLayout>
