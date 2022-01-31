@@ -19,13 +19,11 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RestaurantAdapter(private val onRestClick: (RestaurantObject) -> Unit,
-private val listener : ClickListener) :
+class RestaurantAdapter(
+    private val onRestClick: (RestaurantObject) -> Unit,
+    private val onDelClickListener: (RestaurantObject) -> Unit
+) :
     ListAdapter<RestaurantObject, RestaurantAdapter.ViewHolder>(DiffUtilCallback) {
-
-    interface ClickListener {
-        fun onClickListener(item: RestaurantListFragment)
-    }
 
     inner class ViewHolder(var binding: RestItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -35,36 +33,17 @@ private val listener : ClickListener) :
         return ViewHolder(binding)
     }
 
-
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val restaurant = getItem(position)
         holder.binding.restId.text = restaurant.idRest.toString()
         holder.binding.restName.text = restaurant.name
         holder.binding.restFoodtype.text = restaurant.foodType
         holder.binding.delButton.setOnClickListener {
-            RetrofitConfig.service
-                .delRest(restaurant.idRest)
-                .enqueue(object : Callback<Void> {
-                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                        if (response.isSuccessful) {
-                            getRests()
-                            notifyDataSetChanged()
-                            Log.d("Network", " restaurant deleted")
-                            //Toast.makeText(context,"Deleted message successfully",Toast.LENGTH_SHORT).show()
-                        }else{
-                            Log.d("Network", " network error")
-                            //Toast.makeText(context,"Sorry, we couldn't delete the restaurant. Try again latter",Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                    override fun onFailure(call: Call<Void>, t: Throwable) {
-                        //Toast.makeText(context,"Error deleting message",Toast.LENGTH_SHORT).show()
-                        Log.e("Network", "Error ${t.localizedMessage}", t)
-                    }
-                })
+            onDelClickListener(restaurant)
         }
 
-        holder.binding.root.setOnClickListener{
+
+        holder.binding.root.setOnClickListener {
             onRestClick(restaurant)
         }
     }
@@ -80,6 +59,7 @@ private val listener : ClickListener) :
                     Log.e("Network", "error en la conexion")
                 }
             }
+
             override fun onFailure(call: Call<RestResponse>, t: Throwable) {
                 Log.e("Network", "error en la conexion", t)
                 //Toast.makeText(context, "error de conexion", Toast.LENGTH_SHORT).show()

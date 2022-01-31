@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restaurantapp.R
 import com.example.restaurantapp.databinding.FragmentRestaurantListBinding
+import com.example.restaurantapp.model.RestaurantObject
 import com.example.restaurantapp.network.RetrofitConfig
 import com.example.restaurantapp.network.response.RestResponse
 import com.example.restaurantapp.network.response.Restaurant
@@ -28,7 +29,7 @@ class RestaurantListFragment : Fragment() {
     private var _binding: FragmentRestaurantListBinding? = null
     private val binding get() = _binding!!
     private var idRest: Int = 0
-    private val adapter: RestaurantAdapter = RestaurantAdapter {
+    private val adapter: RestaurantAdapter = RestaurantAdapter ({
         var name: String = it.name
         var foodType: String = it.foodType
         idRest = it.idRest
@@ -39,7 +40,27 @@ class RestaurantListFragment : Fragment() {
         )
 
         findNavController().navigate(goToDetail)
-    }
+    },{
+        RetrofitConfig.service
+            .delRest(it.idRest)
+            .enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful) {
+                        getRests()
+                        Log.d("Network", " restaurant deleted")
+                        //Toast.makeText(context,"Deleted message successfully",Toast.LENGTH_SHORT).show()
+                    } else {
+                        Log.d("Network", " network error")
+                        //Toast.makeText(context,"Sorry, we couldn't delete the restaurant. Try again latter",Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    //Toast.makeText(context,"Error deleting message",Toast.LENGTH_SHORT).show()
+                    Log.e("Network", "Error ${t.localizedMessage}", t)
+                }
+            })
+    })
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,7 +93,7 @@ class RestaurantListFragment : Fragment() {
                 if (response.isSuccessful) {
                     val rest = response.body()
                     adapter.submitList(rest?.data.toMap())
-                    adapter.notifyDataSetChanged()
+                    //adapter.notifyDataSetChanged()
                 } else {
                     Log.e("Network", "error en la conexion")
                 }
