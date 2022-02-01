@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.RestaurantDetailFragment">
+    tools:context=".ui.restaurants.RestaurantDetailFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -52,28 +52,12 @@
                     </TextView>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20sp"
-                        android:layout_marginBottom="15sp"
-                        android:fontFamily="@font/allerta"
-                        android:textAppearance="?attr/textAppearanceBody2"
-                        android:textColor="#BDBDBD" />
-
-
-                </LinearLayout>
 
                 <!--Divider-->
                 <View
                     android:layout_width="match_parent"
-                    android:layout_marginTop="30sp"
-                    android:layout_marginBottom="30sp"
+                    android:layout_marginTop="20sp"
+                    android:layout_marginBottom="20sp"
                     android:layout_marginStart="15sp"
                     android:layout_marginEnd="15sp"
 
@@ -91,6 +75,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="20sp"
                         android:layout_marginStart="20sp"
                         android:layout_marginBottom="15sp"
                         android:fontFamily="@font/allerta"
@@ -140,8 +125,8 @@
                     <!--Divider-->
                     <View
                         android:layout_width="match_parent"
-                        android:layout_marginTop="30sp"
-                        android:layout_marginBottom="30sp"
+                        android:layout_marginTop="20sp"
+                        android:layout_marginBottom="20sp"
                         android:layout_marginStart="15sp"
                         android:layout_marginEnd="15sp"
 
@@ -149,6 +134,34 @@
                         android:background="@color/design_default_color_secondary_variant"/>
 
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30sp"
+                    android:layout_marginTop="20sp"
+                    android:text="Deliveries"
+                    style="@style/estilo_fuente_allerta">
+                </TextView>
+
+                <Button
+                    android:id="@+id/btn_add_dlv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="-30sp"
+                    android:layout_marginEnd="15sp"
+                    android:text="Add"
+                    android:textColor="@color/white">
+                </Button>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/dlv_RV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30sp">
+
+                </androidx.recyclerview.widget.RecyclerView>
 
 
             </LinearLayout>

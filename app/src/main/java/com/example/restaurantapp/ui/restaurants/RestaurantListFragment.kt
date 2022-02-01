@@ -1,4 +1,4 @@
-package com.example.restaurantapp.ui
+package com.example.restaurantapp.ui.restaurants
 
 import android.os.Bundle
 import android.util.Log
@@ -8,58 +8,34 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.restaurantapp.R
 import com.example.restaurantapp.databinding.FragmentRestaurantListBinding
-import com.example.restaurantapp.model.RestaurantObject
+import com.example.restaurantapp.db
 import com.example.restaurantapp.network.RetrofitConfig
-import com.example.restaurantapp.network.response.RestResponse
-import com.example.restaurantapp.network.response.Restaurant
-import com.example.restaurantapp.network.response.toMap
+import com.example.restaurantapp.network.response.*
+import com.example.restaurantapp.ui.RestaurantAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.CollationElementIterator
 
 class RestaurantListFragment : Fragment() {
 
     private var _binding: FragmentRestaurantListBinding? = null
     private val binding get() = _binding!!
     private var idRest: Int = 0
-    private val adapter: RestaurantAdapter = RestaurantAdapter ({
+    private val adapter: RestaurantAdapter = RestaurantAdapter({
         var name: String = it.name
         var foodType: String = it.foodType
         idRest = it.idRest
-        val goToDetail = RestaurantListFragmentDirections.listToDetail(
+        val action = RestaurantListFragmentDirections.listToDetail(
             it.name,
             it.foodType,
             it.idRest
         )
 
-        findNavController().navigate(goToDetail)
-    },{
-        RetrofitConfig.service
-            .delRest(it.idRest)
-            .enqueue(object : Callback<Void> {
-                override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    if (response.isSuccessful) {
-                        getRests()
-                        Log.d("Network", " restaurant deleted")
-                        //Toast.makeText(context,"Deleted message successfully",Toast.LENGTH_SHORT).show()
-                    } else {
-                        Log.d("Network", " network error")
-                        //Toast.makeText(context,"Sorry, we couldn't delete the restaurant. Try again latter",Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                override fun onFailure(call: Call<Void>, t: Throwable) {
-                    //Toast.makeText(context,"Error deleting message",Toast.LENGTH_SHORT).show()
-                    Log.e("Network", "Error ${t.localizedMessage}", t)
-                }
-            })
+        findNavController().navigate(action)
+    }, {
+        delRest()
     })
 
     override fun onCreateView(
@@ -92,15 +68,26 @@ class RestaurantListFragment : Fragment() {
             override fun onResponse(call: Call<RestResponse>, response: Response<RestResponse>) {
                 if (response.isSuccessful) {
                     val rest = response.body()
+                    //get from api and add to db
+                    db.restDao().addRest(rest?.data.toEntity())
+                    //refresh all list
                     adapter.submitList(rest?.data.toMap())
-                    //adapter.notifyDataSetChanged()
                 } else {
                     Log.e("Network", "error en la conexion")
+                    //get from db and refresh
+                    val restEntity = db.restDao().findAll()
+                    adapter.submitList(restEntity.toModel())
+
                 }
             }
+
             override fun onFailure(call: Call<RestResponse>, t: Throwable) {
                 Log.e("Network", "error en la conexion", t)
                 Toast.makeText(context, "error de conexion", Toast.LENGTH_SHORT).show()
+                // get all from db and refresh list
+                val restEntity = db.restDao().findAll()
+                adapter.submitList(restEntity.toModel())
+
             }
         })
     }
@@ -111,14 +98,30 @@ class RestaurantListFragment : Fragment() {
             .enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.isSuccessful) {
-                        Toast.makeText(context,"Deleted message successfully",Toast.LENGTH_SHORT).show()
-                    }else{
-                        Toast.makeText(context,"Sorry, we couldn't delete the restaurant. Try again latter",Toast.LENGTH_SHORT).show()
+                        getRests()
+                        adapter.notifyDataSetChanged()
+                        Log.d("Network", "restaurant deleted")
+                        Toast.makeText(
+                            context,
+                            "Restaurant deleted successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Log.d("Network", " network error")
+                        Toast.makeText(
+                            context,
+                            "Sorry, we couldn't delete the restaurant. Try again latter",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
+
                 override fun onFailure(call: Call<Void>, t: Throwable) {
-                    Toast.makeText(context,"Error deleting message",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Error deleting restaurant", Toast.LENGTH_SHORT).show()
                     Log.e("Network", "Error ${t.localizedMessage}", t)
+                    //delete from db
+                    val rest = db.restDao().findRestById(idRest)
+                    db.restDao().deleteRest(rest)
                 }
             })
     }

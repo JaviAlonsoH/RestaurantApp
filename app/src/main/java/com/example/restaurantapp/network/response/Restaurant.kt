@@ -1,5 +1,6 @@
 package com.example.restaurantapp.network.response
 
+import com.example.restaurantapp.db.entity.RestEntity
 import com.example.restaurantapp.model.RestaurantObject
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
@@ -24,21 +25,19 @@ fun List<Restaurant>?.toMap(): List<RestaurantObject> {
     return this?.map { it.toRestObjectExt() } ?: emptyList()
 }
 
-/*
-fun Restaurant.toEntity(): MsgEntity {
-    return MsgEntity(idMsg, msg, date)
+
+fun Restaurant.toEntity(): RestEntity {
+    return RestEntity(idRest, name, foodType)
 }
 
-fun List<Msg>?.toEntity(): List<MsgEntity> {
+fun List<Restaurant>?.toEntity(): List<RestEntity> {
     return this?.map { it.toEntity() } ?: emptyList()
 }
 
-fun MsgEntity.toModel(): MsgObject {
-    return MsgObject(id, content, date, 2)
+fun RestEntity.toModel(): RestaurantObject {
+    return RestaurantObject(idRest, name, foodType)
 }
 
-fun List<MsgEntity>?.toModel(): List<MsgObject> {
+fun List<RestEntity>?.toModel(): List<RestaurantObject> {
     return this?.map { it.toModel() } ?: emptyList()
 }
-*
- */

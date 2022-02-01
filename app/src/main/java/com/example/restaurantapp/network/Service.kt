@@ -15,4 +15,16 @@ interface Service {
 
     @DELETE("deleterestaurant/{restId}")
     fun delRest(@Path("restId") restId: Int): Call<Void>
+
+    //Deliveries
+
+    @GET("deliveries")
+    fun getDlvs(): Call<RestResponse>
+
+    @POST("adddelivery")
+    fun addDlv(@Body req: RestRequest): Call<Void>
+
+    @DELETE("deletedelivery/{idDelivery}")
+    fun delDlv(@Path("idDelivery") idDelivery: Int): Call<Void>
+
 }

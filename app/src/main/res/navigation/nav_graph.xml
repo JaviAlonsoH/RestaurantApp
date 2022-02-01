@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/restaurantListFragment"
-        android:name="com.example.restaurantapp.ui.RestaurantListFragment"
+        android:name="com.example.restaurantapp.ui.restaurants.RestaurantListFragment"
         android:label="fragment_restaurant_list"
         tools:layout="@layout/fragment_restaurant_list" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/restaurantDetailFragment"
-        android:name="com.example.restaurantapp.ui.RestaurantDetailFragment"
+        android:name="com.example.restaurantapp.ui.restaurants.RestaurantDetailFragment"
         android:label="fragment_restaurant_detail"
         tools:layout="@layout/fragment_restaurant_detail" >
         <argument
@@ -31,14 +31,43 @@
         <argument
             android:name="idRest"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_restaurantDetailFragment_to_addDlvFragment"
+            app:destination="@id/addDlvFragment" />
+        <action
+            android:id="@+id/listToDlvDetail"
+            app:destination="@id/dlvDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/addRestaurantFragment"
-        android:name="com.example.restaurantapp.ui.addRestaurant.AddRestaurantFragment"
+        android:name="com.example.restaurantapp.ui.restaurants.AddRestaurantFragment"
         android:label="fragment_add_restaurant"
         tools:layout="@layout/fragment_add_restaurant" >
         <action
             android:id="@+id/addToList"
             app:destination="@id/restaurantListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addDlvFragment"
+        android:name="com.example.restaurantapp.ui.deliveries.AddDlvFragment"
+        android:label="fragment_add_dlv"
+        tools:layout="@layout/fragment_add_dlv" />
+    <fragment
+        android:id="@+id/dlvDetailFragment"
+        android:name="com.example.restaurantapp.ui.deliveries.DlvDetailFragment"
+        android:label="fragment_dlv_detail"
+        tools:layout="@layout/fragment_dlv_detail" >
+        <argument
+            android:name="idDelivery"
+            app:argType="integer" />
+        <argument
+            android:name="vehicle"
+            app:argType="string" />
+        <argument
+            android:name="restaurant"
+            app:argType="string" />
+        <argument
+            android:name="address"
+            app:argType="string" />
     </fragment>
 </navigation>

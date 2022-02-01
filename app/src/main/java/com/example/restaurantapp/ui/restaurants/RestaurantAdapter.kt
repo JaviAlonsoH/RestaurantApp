@@ -42,31 +42,10 @@ class RestaurantAdapter(
             onDelClickListener(restaurant)
         }
 
-
         holder.binding.root.setOnClickListener {
             onRestClick(restaurant)
         }
     }
-
-    private fun getRests() {
-        RetrofitConfig.service.getRests().enqueue(object : Callback<RestResponse> {
-            override fun onResponse(call: Call<RestResponse>, response: Response<RestResponse>) {
-                if (response.isSuccessful) {
-                    val rest = response.body()
-                    submitList(rest?.data.toMap())
-                    notifyDataSetChanged()
-                } else {
-                    Log.e("Network", "error en la conexion")
-                }
-            }
-
-            override fun onFailure(call: Call<RestResponse>, t: Throwable) {
-                Log.e("Network", "error en la conexion", t)
-                //Toast.makeText(context, "error de conexion", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
-
 
 }
 

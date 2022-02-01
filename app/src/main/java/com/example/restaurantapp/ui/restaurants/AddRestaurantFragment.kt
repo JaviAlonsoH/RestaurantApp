@@ -1,4 +1,4 @@
-package com.example.restaurantapp.ui.addRestaurant
+package com.example.restaurantapp.ui.restaurants
 
 import android.os.Bundle
 import android.util.Log
@@ -8,13 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
-import com.example.restaurantapp.R
 import com.example.restaurantapp.databinding.FragmentAddRestaurantBinding
-import com.example.restaurantapp.databinding.FragmentRestaurantDetailBinding
 import com.example.restaurantapp.network.RetrofitConfig
 import com.example.restaurantapp.network.request.RestRequest
-import com.example.restaurantapp.ui.RestaurantAdapter
-import com.example.restaurantapp.ui.RestaurantListFragmentDirections
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,19 +32,29 @@ class AddRestaurantFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnAdd.setOnClickListener {
-            addRest()
+            validateMsg()
             val action = AddRestaurantFragmentDirections.addToList()
             findNavController().navigate(action)
         }
     }
 
-    private fun addRest() {
+    private fun validateMsg() {
+        val restaurantName = binding.restName.text.toString()
+        if (restaurantName.isNotEmpty()) {
+            addRest(restaurantName)
+        }
+    }
+
+
+    private fun addRest(name: String) {
         RetrofitConfig.service
-            .addRest(RestRequest(idRest =+1, binding.restName.text.toString(), binding.foodType.text.toString()))
+            .addRest(RestRequest(1, name, binding.foodType.text.toString()))
             .enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.isSuccessful) {
+
                         Toast.makeText(context,"Restaurant added successfully", Toast.LENGTH_SHORT).show()
+
                     }else{
                         Toast.makeText(context,"Sorry, we couldn't add the restaurant. Try again latter",
                             Toast.LENGTH_SHORT).show()

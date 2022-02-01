@@ -1,6 +1,7 @@
 package com.example.restaurantapp.db
 
 import androidx.room.*
+import com.example.restaurantapp.db.entity.DeliveryEntity
 import com.example.restaurantapp.db.entity.RestEntity
 
 @Dao
@@ -15,14 +16,23 @@ interface RestDAO {
     @Query("SELECT * FROM restaurant WHERE restaurant.name LIKE :query")
     fun findRestById(query: String): RestEntity
 
-    @Insert
-    fun addRest(msgEntity: RestEntity)
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addRest(restsEntities: List<RestEntity>)
 
     @Delete
-    fun deleteRest(msgEntity: RestEntity)
+    fun deleteRest(restEntity: RestEntity)
+
+    //Deliveries
+
+    @Query("SELECT * FROM restaurant JOIN delivery ON restaurant.idRest = delivery.idDelivery")
+    fun getRestDeliveries(): Map<RestEntity, List<DeliveryEntity>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun addDlv(deliveryEntity: List<DeliveryEntity>)
+
+    @Delete
+    fun delDlv(deliveryEntity: DeliveryEntity)
+
 
 
 }
