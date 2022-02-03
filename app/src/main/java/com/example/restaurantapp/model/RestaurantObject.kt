@@ -10,5 +10,9 @@ data class RestaurantObject(
     val name: String,
     @SerializedName("foodType")
     val foodType: String,
+    @SerializedName("comments")
+    val comments: String,
+    @SerializedName("rating")
+    val rating: Double,
 
 )

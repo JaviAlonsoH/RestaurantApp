@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.restaurantapp.databinding.FragmentRestaurantDetailBinding
 import com.example.restaurantapp.db
 import com.example.restaurantapp.network.RetrofitConfig
@@ -62,7 +63,7 @@ class RestaurantDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.dlvRV.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.detailRestId.text = idRest.toString()
         binding.detailRestName.text = name
         binding.detailRestFoodType.text = foodType
